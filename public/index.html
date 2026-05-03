@@ -1,89 +1,164 @@
-<!DOCTYPE html> hello
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="main.css">
+  <title>Silica Dust Monitor Dashboard</title>
 
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/12.12.1/firebase-app-compat.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/12.12.1/firebase-auth-compat.js"></script>
-    <script defer src="/__/firebase/12.12.1/firebase-database-compat.js"></script>
-    <script defer src="/__/firebase/12.12.1/firebase-firestore-compat.js"></script>
-    <script defer src="/__/firebase/12.12.1/firebase-functions-compat.js"></script>
-    <script defer src="/__/firebase/12.12.1/firebase-messaging-compat.js"></script>
-    <script defer src="/__/firebase/12.12.1/firebase-storage-compat.js"></script>
-    <script defer src="/__/firebase/12.12.1/firebase-analytics-compat.js"></script>
-    <script defer src="/__/firebase/12.12.1/firebase-remote-config-compat.js"></script>
-    <script defer src="/__/firebase/12.12.1/firebase-performance-compat.js"></script>
-    <!-- 
-      initialize the SDK after all desired features are loaded, set useEmulator to false
-      to avoid connecting the SDK to running emulators.
-    -->
-    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+</head>
 
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
-    </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
+<body>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadEl = document.querySelector('#load');
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.firestore().doc('/foo/bar').get().then(() => { });
-        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        // firebase.analytics(); // call to activate
-        // firebase.analytics().logEvent('tutorial_completed');
-        // firebase.performance(); // call to activate
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+  <div class="page">
 
-        try {
-          let app = firebase.app();
-          let features = [
-            'auth', 
-            'database', 
-            'firestore',
-            'functions',
-            'messaging', 
-            'storage', 
-            'analytics', 
-            'remoteConfig',
-            'performance',
-          ].filter(feature => typeof app[feature] === 'function');
-          loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
-        }
-      });
-    </script>
-  </body>
+    <!-- Top Bar -->
+    <header class="topbar">
+      <div class="brand">
+        <a class="brand-logo" href="/">
+          <img src="img/The_University_of_Melbourne_Logo.svg.png" alt="University of Melbourne logo">
+        </a>
+        <div class="brand-text">
+          <h1>Silica Dust Monitor</h1>
+          <p>University Capstone Project</p>
+        </div>
+      </div>
+
+      <!-- Hamburger Menu -->
+      <div class="menu-wrapper">
+        <input type="checkbox" id="menu-toggle" class="menu-toggle">
+        <label for="menu-toggle" class="menu-btn">☰</label>
+
+        <div class="dropdown-menu">
+          <a href="/">Home</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero" id="home">
+      <h2>Silica Dust Monitoring Dashboard</h2>
+      <h3>Real-Time Air Quality Monitoring and Safety Decision System</h3>
+      <p>Monitoring airborne dust levels across sensor locations in the testing environment.</p>
+      <!-- <button>LOGIN</button> -->
+    </section>
+
+    <!-- Intro -->
+    <section class="intro">
+      <div class="intro-card">
+        <div>
+          <h4>Breathing Easy: Real-Time Silica Dust Monitor</h4>
+          <p>
+            This dashboard displays real-time readings from multiple dust sensors.
+            Each card represents one sensor location and shows its current reading,
+            air quality status, and basic operating information.
+          </p>
+        </div>
+        <a href="contact.html" class="contact-button">CONTACT US</a>
+      </div>
+
+      <div class="intro-card">
+        <div>
+          <h4>Project Collaboration</h4>
+          <p>
+            Faculty of Engineering and Information Technology The University of Melbourne<br>
+            -  Human Robotics Laboratory<br>
+            -  Offshore Geomechanics
+          </p>
+        </div>
+        <button class="system-status">Prototype Dashboard Testing</button>
+      </div>
+    </section>
+
+    <!-- Sensor Section -->
+    <section class="section">
+      <h2 class="section-title">Sensor Monitoring System</h2>
+
+      <div class="sensor-grid">
+
+        <!-- Card 1 -->
+        <div class="sensor-card">
+          <div>
+            <h4>Inside Sensor 01</h4>
+            <div class="sensor-number">01</div>
+
+            <div class="location">Sand Rainer Area</div>
+            <div class="reading danger">85 µg/m³</div>
+            <span class="badge danger">DANGER</span>
+
+            <div class="sensor-info">
+              <strong>Last Record</strong> Sun May 3 2026<br>
+              <strong>PM2.5:</strong> 42 µg/m³<br>
+              <strong>PM10:</strong> 85 µg/m³<br>
+              <strong>Sensor Status:</strong> Online
+            </div>
+          </div>
+
+          <div class="card-actions">
+            <!-- <button class="btn btn-primary">VIEW DATA</button> -->
+            <button class="btn btn-primary">MORE INFO</button>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="sensor-card">
+          <div>
+            <h4>Outside Sensor 01</h4>
+            <div class="sensor-number">02</div>
+
+            <div class="location">Safe Reference Area</div>
+            <div class="reading safe">28 µg/m³</div>
+            <span class="badge safe">SAFE</span>
+
+            <div class="sensor-info">
+              <strong>Last Record</strong> Sun May 3 2026<br>
+              <strong>Information:</strong> Infrastructure Engineering - Block D (Building 176), Floor B1<br>
+              <!-- <strong>PM2.5:</strong> 13 µg/m³<br> -->
+              <!-- <strong>PM10:</strong> 28 µg/m³<br> -->
+              <strong>Sensor Status:</strong> Online
+            </div>
+          </div>
+
+          <div class="card-actions">
+            <!-- <button class="btn btn-primary">VIEW DATA</button> -->
+            <button class="btn btn-primary">MORE INFO</button>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="sensor-card">
+          <div>
+            <h4>Somewhere Sensor</h4>
+            <div class="sensor-number">03addfgvhbnjk</div>
+
+            <div class="location">Somewhere</div>
+            <div class="reading warning">52 µg/m³</div>
+            <span class="badge warning">WARNING</span>
+
+            <div class="sensor-info">
+              <strong>Last Record</strong> Sun May 3 2026<br>
+              <strong>PM2.5:</strong> 24 µg/m³<br>
+              <strong>PM10:</strong> 52 µg/m³<br>
+              <strong>Sensor Status:</strong> Online
+            </div>
+          </div>
+
+          <div class="card-actions">
+            <!-- <button class="btn btn-primary">VIEW DATA</button> -->
+            <button class="btn btn-primary">MORE INFO</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    
+    <footer class="footer" id="contact">
+      Real-Time Silica Dust Monitor Dashboard · UniMelb Prototype Updated 5/5/2026
+    </footer>
+
+  </div>
+
+</body>
 </html>
