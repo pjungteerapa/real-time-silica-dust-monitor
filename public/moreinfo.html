@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="moreinfo.css">
+  <title>Sensor Information</title>
+
+  <!-- Chart.js for line time-series graph -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+  <div class="page">
+
+    <!-- Top Bar -->
+    <header class="topbar">
+      <div class="brand">
+        <a class="brand-logo" href="/">
+          <img src="img/The_University_of_Melbourne_Logo.svg.png" alt="University of Melbourne logo">
+        </a>
+        <div class="brand-text">
+          <h1>Silica Dust Monitor</h1>
+          <p>University Capstone Project</p>
+        </div>
+      </div>
+
+      <!-- Hamburger Menu -->
+      <div class="menu-wrapper">
+        <input type="checkbox" id="menu-toggle" class="menu-toggle">
+        <label for="menu-toggle" class="menu-btn">☰</label>
+
+        <div class="dropdown-menu">
+          <a href="/">Home</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- More Info Main Section -->
+    <main class="more-info-page">
+
+      <section class="sensor-header">
+        <span class="section-label-blue">agbhfijokalf</span>
+        <h2>Inside Sensor 01</h2>
+        <p>Location: Sand Rainer Area</p>
+      </section>
+
+      <!-- Graph Section -->
+      <section class="graph-card">
+        <div class="graph-header">
+          <div>
+            <h3>Dust Concentration Time Series</h3>
+            <p>PM10 readings over time</p>
+          </div>
+
+        </div>
+
+        <div class="chart-wrapper">
+          <canvas id="dustChart"></canvas>
+        </div>
+      </section>
+
+      <!-- Information + Status + Output -->
+      <section class="info-grid">
+
+        <!-- Sensor Information -->
+        <div class="info-card">
+          <h3>Sensor Information</h3>
+
+          <div class="info-row">
+            <span>Sensor ID</span>
+            <strong>aashuidfasildasd65565</strong>
+          </div>
+
+          <div class="info-row">
+            <span>Location</span>
+            <strong>Infrastructure Engineering - Block D (Building 176), Floor B1</strong>
+          </div>
+
+          <div class="info-row">
+            <span>Sensor Type</span>
+            <strong>Light Sensor</strong>
+          </div>
+
+          <div class="info-row">
+            <span>Measured Range</span>
+            <strong>PM1.0 / PM2.5 / PM10</strong>
+          </div>
+
+          <div class="info-row">
+            <span>Last Updated</span>
+            <strong>10:32 AM</strong>
+          </div>
+        </div>
+
+        <!-- Current Status -->
+        <div class="info-card">
+          <h3>Current Status</h3>
+
+          <div class="current-reading danger-text">
+            85 µg/m³
+          </div>
+
+          <span class="badge danger">DANGER</span>
+
+          <p class="status-description">
+            Discription for operating.
+          </p>
+
+          <div class="info-row">
+            <span>PM2.5</span>
+            <strong>42 µg/m³</strong>
+          </div>
+
+          <div class="info-row">
+            <span>PM10</span>
+            <strong>85 µg/m³</strong>
+          </div>
+        </div>
+
+        <!-- Output System -->
+        <!-- <div class="info-card">
+          <h3>Output System</h3>
+
+          <div class="output-status">
+            <span>Status</span>
+            <strong>On</strong>
+          </div>
+
+          <label class="switch">
+            <input type="checkbox" checked>
+            <span class="slider"></span>
+          </label>
+
+          <p class="status-description">
+            This section is prepared for future connection with an output system,
+            such as alarm lights, warning signals, ventilation control, or access
+            restriction indicators.
+          </p>
+
+          <button class="btn btn-primary output-btn">Manual Override</button>
+        </div> -->
+
+      </section>
+
+    </main>
+
+    <footer class="footer">
+      Real-Time Silica Dust Monitor Dashboard
+    </footer>
+
+  </div>
+<script src="chart.js"></script>
+</body>
+</html>

@@ -1,0 +1,249 @@
+/* More Info Page */
+.more-info-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 42px 24px 60px;
+}
+
+.sensor-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.sensor-header h2 {
+  color: var(--primary);
+  font-size: 38px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.sensor-header p {
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.section-label-blue {
+  display: inline-block;
+  background: var(--light-blue);
+  color: var(--primary);
+  border: 1px solid var(--border);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.graph-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 26px;
+  box-shadow: 0 10px 28px rgba(12, 35, 64, 0.07);
+  margin-bottom: 26px;
+}
+
+.graph-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.graph-header h3 {
+  color: var(--primary);
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.graph-header p {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.chart-wrapper {
+  height: 380px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  align-items: stretch;
+}
+
+.info-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 24px;
+  box-shadow: 0 10px 28px rgba(12, 35, 64, 0.07);
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
+}
+
+.info-card h3 {
+  color: var(--primary);
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 18px;
+}
+
+.info-card .status-description {
+  flex-grow: 1;
+}
+
+.info-row {
+  padding: 13px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-row span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  letter-spacing: 0.4px;
+}
+
+.info-row strong {
+  display: block;
+  color: var(--primary);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.current-reading {
+  font-size: 42px;
+  font-weight: 800;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.danger-text {
+  color: var(--danger);
+}
+
+.warning-text {
+  color: var(--warning);
+}
+
+.safe-text {
+  color: var(--safe);
+}
+
+.status-description {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 18px 0;
+}
+
+.output-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--light-blue);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+}
+
+.output-status span {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.output-status strong {
+  color: var(--primary);
+  font-size: 18px;
+}
+
+/* Toggle Switch */
+.switch {
+  position: relative;
+  display: block;
+  width: 70px;
+  height: 36px;
+  margin: 0 auto 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #cbd5e1;
+  transition: 0.3s;
+  border-radius: 999px;
+}
+
+.slider::before {
+  position: absolute;
+  content: "";
+  height: 28px;
+  width: 28px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+}
+
+.switch input:checked + .slider {
+  background-color: var(--primary);
+}
+
+.switch input:checked + .slider::before {
+  transform: translateX(34px);
+}
+
+.output-btn {
+  width: 100%;
+  margin-top: 8px;
+}
+
+/* Responsive More Info Page */
+@media (max-width: 992px) {
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .graph-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .chart-wrapper {
+    height: 320px;
+  }
+}
+
+@media (max-width: 640px) {
+  .sensor-header h2 {
+    font-size: 30px;
+  }
+
+  .chart-wrapper {
+    height: 280px;
+  }
+}
