@@ -51,11 +51,21 @@
       <!-- Graph Section -->
       <section class="graph-card">
         <div class="graph-header">
-          <div>
+          <div class="graph-title">
             <h3>Dust Concentration Time Series</h3>
-            <p>PM10 readings over time</p>
+            <p id="chartSubtitle">PM10 readings from the last 5 minutes</p>
           </div>
 
+          <div class="chart-controls">
+            <label for="timeRange" class="range-label">Time Range</label>
+
+            <select id="timeRange" class="range-select">
+              <option value="5" selected>Last 5 minutes</option>
+              <option value="10">Last 10 minutes</option>
+              <option value="15">Last 15 minutes</option>
+              <option value="30">Last 30 minutes</option>
+            </select>
+          </div>
         </div>
 
         <div class="chart-wrapper">
