@@ -242,7 +242,7 @@
   }
 }
 </style>
-
+<script src="js/login.js" type="module"></script>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -273,6 +273,8 @@
         <div class="dropdown-menu">
             <a href="/">Home</a>
             <a href="contact.html">Contact</a>
+            <a href="login.html" id="login">Login</a>
+            <a href="/" id="logout">Logout</a>
         </div>
         </div>
     </header>
@@ -313,7 +315,7 @@
         <h2>Welcome</h2>
         <p class="login-subtitle">Please log in to access the monitoring dashboard.</p>
 
-        <form action="" method="get" class="login-form">
+        <form class="login-form" name="loginform" id="loginform">
 
           <div class="form-group">
             <label for="username">Email</label>
@@ -346,7 +348,7 @@
             <!-- <a href="#">Forgot password?</a>
           </div> -->
 
-          <button type="submit" class="login-button">
+          <button type="submit" class="login-button" name="submit" value="submit">
             Login
           </button>
 
