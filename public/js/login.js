@@ -31,21 +31,24 @@ const auth = getAuth();
 ///////////////////////////////////////////////////////////////////////////////////
 //////////////Check Login
 var user_info = {}
+
 onAuthStateChanged(auth, (user) => {
+    // console.log(user)
     if (user){
-        const dname = user.nameame;
         const uid = user.uid;
-        console.log(dname,uid)
-        user_info["name"] = dname;
+        // console.log(uid)
+
         user_info["uid"] = uid;
-        document.getElementById("logout").innerHTML = "Logout as " + dname;
+        document.getElementById("logout").innerHTML = "Logout as " + uid;
     }
-    if(user_info.name){
-        document.getElementById("login").parent().hide();
-        // document.getElementById("login").style.display = "none";
+    
+    if(user_info.uid){
+        // document.getElementById("login").parent().hide();
+        document.getElementById("login").style.display = "none";
     }else{
-        document.getElementById("logout").parent().hide();
-        // document.getElementById("logout").style.display = "none";
+        // console.log(document.getElementById("logout"))
+        // document.getElementById("logout").parent().hide();
+        document.getElementById("logout").style.display = "none";
     }
 })
 
@@ -53,14 +56,13 @@ onAuthStateChanged(auth, (user) => {
 /////////////Login form
 const loginForm = document.getElementById('loginform')
 loginForm.addEventListener('submit', (e) => {
-    // e.preventDefault()
+    e.preventDefault()
     const email = loginForm.username.value
     const password = loginForm.password.value
-    console.log(email,password)
 
     signInWithEmailAndPassword(auth, email, password)
         .then((cred) => {
-            console.log(email,password)
+            
             console.log("success")
             window.location.href = "/"
         })
