@@ -73,21 +73,23 @@ onAuthStateChanged(auth, (user) => {
                                 // dust data
                                 var late_pm25 = docSnap.data().dust.pm2_5.dust_data.pop();
                                 var late_pm25_time = docSnap.data().dust.pm2_5.timestamp.pop();
+                                // var late_pm10 = docSnap.data().dust.pm10.dust_data.pop();
+                                // var late_pm10_time = docSnap.data().dust.pm10.timestamp.pop();
 
                                 var carousel_div = `<div class="sensor-card">
                                                         <div>
-                                                            <h4>${sensor_name}</h4>
+                                                            <h4 id="sensor_name_${sensor_id}">${sensor_name}</h4>
                                                             <div class="sensor-number">${sensor_id}</div>
                                 
-                                                            <div class="location">${sensor_loc}</div>
-                                                            <div class="reading danger">${late_pm25} µg/m³</div>
-                                                            <span class="badge danger">DANGER</span>
+                                                            <div class="location" id="loc_${sensor_id}">${sensor_loc}</div>
+                                                            <div class="reading danger" id="dust_value_${sensor_id}">${late_pm25} µg/m³</div>
+                                                            <span class="badge danger" id="dust_status_${sensor_id}">DANGER</span>
 
                                                             <div class="sensor-info">
-                                                            <strong>Last Record</strong>${late_pm25_time}<br>
-                                                            <strong>PM2.5:</strong> ${late_pm25} µg/m³<br>
-                                                            <strong>PM10:</strong> ${late_pm25} µg/m³<br>
-                                                            <strong>Sensor Status:</strong> Online
+                                                            <strong>Last Record: </strong><spa id="late_time_${sensor_id}">${late_pm25_time}</span><br>
+                                                            <strong>PM2.5: </strong><span id="late_pm25_${sensor_id}">${late_pm25} µg/m³</span><br>
+                                                            <strong>PM10: </strong><span id="late_pm10_${sensor_id}">${late_pm25} µg/m³</span><br>
+                                                            <strong>Sensor Status: </strong><span id="sensor_status_${sensor_id}">Online</span>
                                                             </div>
                                                         </div>
 
@@ -101,39 +103,37 @@ onAuthStateChanged(auth, (user) => {
                         else{console.log("No such document!");}
                     })
 
-                //     //Change Data Capture
-                //     const unsub = onSnapshot(tank_docRef, (docSnap) => {
-                //         // console.log(docSnap.data());
-                //         var tank_id = docSnap.data().id;
-                //         var tank_name = docSnap.data().name;
-                //         var tank_info = docSnap.data().info;
-                //         //info
-                //         var information = docSnap.data().information;
-                //         var tank_sdate = date_format(information.start_date.seconds);
-                //         //ph
-                //         const ph = docSnap.data().ph;
-                //         var late_ph = ph.ph_data[ph.ph_data.length -1];
-                //         //specific_gravity
-                //         var specific_gravity = docSnap.data().specific_gravity;
-                //         var late_sg = specific_gravity.sg_data[specific_gravity.sg_data.length -1];
-                //         //temp
-                //         const temperature = docSnap.data().temperature;
-                //         var late_temp = temperature.temp[temperature.temp.length -1];
-                //         //Data
-                //         document.getElementById("late_temp_"+tank_id).innerHTML = late_temp + "&nbsp;°C";
-                //         document.getElementById("name_"+tank_id).innerHTML = tank_name;
-                //         document.getElementById("info_"+tank_id).innerHTML = tank_info;
-                //         document.getElementById("sdate_"+tank_id).innerHTML = tank_sdate;
-                //         document.getElementById("ph_"+tank_id).innerHTML = late_ph;
-                //         document.getElementById("late_sg_"+tank_id).innerHTML = late_sg;
+                    //Change Data Capture
+                    const unsub = onSnapshot(sensor_docRef, (docSnap) => {
+                        // console.log(docSnap.data());
+                        var sensor_id = docSnap.data().id;
+                        var sensor_name = docSnap.data().name;
+                        //info
+                        var sensor_type = docSnap.data().type;
+                        var sensor_loc = docSnap.data().loc;
+                        var sensor_loc_long = docSnap.data().loc_long;
+                        var sensor_measure_range = docSnap.data().measure_range;
+                        // dust data
+                        var late_pm25 = docSnap.data().dust.pm2_5.dust_data.pop();
+                        var late_pm25_time = docSnap.data().dust.pm2_5.timestamp.pop();
+                        // var late_pm10 = docSnap.data().dust.pm10.dust_data.pop();
+                        // var late_pm10_time = docSnap.data().dust.pm10.timestamp.pop();
 
-                //         var temp_dif = late_temp - docSnap.data().control.temp_control;
-                //         if(temp_dif < 0){
-                //             document.getElementById("late_temp_"+tank_id).style.color = "#478ac9";
-                //         }else{
-                //             document.getElementById("late_temp_"+tank_id).style.color = "#db545a";
-                //         }
-                //     });
+                        //Data
+                        document.getElementById("late_temp_"+sensor_id).innerHTML = late_temp + "&nbsp;°C";
+                        document.getElementById("name_"+sensor_id).innerHTML = tank_name;
+                        document.getElementById("info_"+sensor_id).innerHTML = tank_info;
+                        document.getElementById("sdate_"+sensor_id).innerHTML = tank_sdate;
+                        document.getElementById("ph_"+sensor_id).innerHTML = late_ph;
+                        document.getElementById("late_sg_"+sensor_id).innerHTML = late_sg;
+
+                        var temp_dif = late_temp - docSnap.data().control.temp_control;
+                        if(temp_dif < 0){
+                            document.getElementById("late_temp_"+tank_id).style.color = "#478ac9";
+                        }else{
+                            document.getElementById("late_temp_"+tank_id).style.color = "#db545a";
+                        }
+                    });
                 })
                 
             } else {
