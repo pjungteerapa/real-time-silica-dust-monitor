@@ -55,47 +55,51 @@ onAuthStateChanged(auth, (user) => {
                     document.getElementById("login_btn").href = "/";
                 }
 
-                // docSnap.data().sensor.forEach((sensor,i) => {
-                //     // console.log(sensor)
-                //     const sensor_docRef = doc(db, "sensor", sensor);
+                docSnap.data().sensor.forEach((sensor,i) => {
+                    // console.log(sensor)
+                    const sensor_docRef = doc(db, "sensor", sensor);
 
-                //     // Slideshow Create
-                //     getDoc(sensor_docRef).then(docSnap => {
-                //         if (docSnap.exists()) {
-                //             // console.log("Document data:", docSnap.data());
-                //                 var tank_id = docSnap.data().id;
-                //                 var tank_name = docSnap.data().name;
-                //                 var tank_info = docSnap.data().info;
-                //                 //info
-                //                 var information = docSnap.data().information;
-                //                 var tank_sdate = date_format(information.start_date.seconds);
-                //                 //ph
-                //                 const ph = docSnap.data().ph;
-                //                 var late_ph = ph.ph_data[ph.ph_data.length -1] || 0;
-                //                 //specific_gravity
-                //                 var specific_gravity = docSnap.data().specific_gravity;
-                //                 var late_sg = specific_gravity.sg_data[specific_gravity.sg_data.length -1] || 0;
-                //                 //temp
-                //                 const temperature = docSnap.data().temperature;
-                //                 var late_temp = temperature.temp[temperature.temp.length -1];
+                    // Slideshow Create
+                    getDoc(sensor_docRef).then(docSnap => {
+                        if (docSnap.exists()) {
+                            console.log("Document data:", docSnap.data());
+                                var sensor_id = docSnap.data().id;
+                                var sensor_name = docSnap.data().name;
+                                //info
+                                var sensor_type = docSnap.data().type;
+                                var sensor_loc = docSnap.data().loc;
+                                var sensor_loc_long = docSnap.data().loc_long;
+                                var sensor_measure_range = docSnap.data().measure_range;
+                                // dust data
+                                var late_pm25 = docSnap.data().dust.pm2_5.dust_data.pop();
+                                var late_pm25_time = docSnap.data().dust.pm2_5.timestamp.pop();
+
+                                var carousel_div = `<div class="sensor-card">
+                                                        <div>
+                                                            <h4>${sensor_name}</h4>
+                                                            <div class="sensor-number">${sensor_id}</div>
+                                
+                                                            <div class="location">${sensor_loc}</div>
+                                                            <div class="reading danger">${late_pm25} µg/m³</div>
+                                                            <span class="badge danger">DANGER</span>
+
+                                                            <div class="sensor-info">
+                                                            <strong>Last Record</strong>${late_pm25_time}<br>
+                                                            <strong>PM2.5:</strong> ${late_pm25} µg/m³<br>
+                                                            <strong>PM10:</strong> ${late_pm25} µg/m³<br>
+                                                            <strong>Sensor Status:</strong> Online
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="card-actions">
+                                                            <a class="contact-button" href="moreinfo.html?${sensor_id}">MORE INFO</a>
+                                                        </div>
+                                                    </div>`
             
-                //                 var carousel_div = `<div class="u-align-center u-container-align-center u-container-style u-list-item u-opacity u-opacity-90 u-repeater-item u-shape-rectangle u-white u-list-item-${i+1}" data-animation-name="customAnimationIn" data-animation-duration="1500">` +
-                //                 `<div class="u-container-layout u-similar-container u-container-layout-1">` +
-                //                 `<h3 class="u-align-center u-text u-text-default u-text-2" id="name_${tank_id}">${tank_name}</h3>` +
-                //                 `<img alt="" class="u-align-center u-expanded-width-lg u-expanded-width-md u-expanded-width-sm u-expanded-width-xs u-image u-image-contain u-image-default u-image-${i+1}" data-image-width="235" data-image-height="622" src="images/fermentertank.png">` +
-                //                 `<h4 class="u-align-center u-text u-text-3" id="info_${tank_id}">${tank_info}</h4>` +
-                //                 `<h3 class="u-align-center u-text u-text-default u-text-4" id="late_temp_${tank_id}">${late_temp}&nbsp;°C</h3>` +
-                //                 `<p class="u-align-center u-custom-font u-heading-font u-text u-text-default u-text-5"><b>Start Date: </b><span id="sdate_${tank_id}">${tank_sdate}</span><br><b> Potential of Hydrogen: </b><span id="ph_${tank_id}">${late_ph}</span><br><b>Actual Gravity: </b><span id="late_sg_${tank_id}">${late_sg}</span></p>` +
-                //                 `<a href="monitor_ft.html?id=${tank_id}" class="u-active-black u-align-center u-border-none u-btn u-button-style u-hover-black u-palette-3-base u-btn-${i+1}">Temperature Control</a>` +
-                //                 `<a href="qc.html?id=${tank_id}" class="u-active-black u-align-center u-border-none u-btn u-button-style u-hover-black u-palette-3-base u-btn-${i+1}">Quality Control</a>` +
-                //                 `</div></div>`
-            
-                //                 $("#slideshow-container").append(carousel_div);
-                //                 // console.log(temp_dif)          
-                //         } else {
-                //             console.log("No such document!");
-                //         }
-                //     })
+                            document.getElementById("sensor-grid").innerHTML += carousel_div;     
+                        } 
+                        else{console.log("No such document!");}
+                    })
 
                 //     //Change Data Capture
                 //     const unsub = onSnapshot(tank_docRef, (docSnap) => {
@@ -130,7 +134,7 @@ onAuthStateChanged(auth, (user) => {
                 //             document.getElementById("late_temp_"+tank_id).style.color = "#db545a";
                 //         }
                 //     });
-                // })
+                })
                 
             } else {
                 console.log("No such document!");
