@@ -73,8 +73,10 @@ onAuthStateChanged(auth, (user) => {
                                 // dust data
                                 var late_pm25 = docSnap.data().dust.pm2_5.dust_data.pop();
                                 var late_pm25_time = docSnap.data().dust.pm2_5.timestamp.pop();
-                                // var late_pm10 = docSnap.data().dust.pm10.dust_data.pop();
-                                // var late_pm10_time = docSnap.data().dust.pm10.timestamp.pop();
+                                var late_pm10 = docSnap.data().dust.pm10.dust_data.pop();
+                                var late_pm10_time = docSnap.data().dust.pm10.timestamp.pop();
+                                var late_si = docSnap.data().dust.si.dust_data.pop();
+                                var late_si_time = docSnap.data().dust.si.timestamp.pop();
 
                                 var carousel_div = `<div class="sensor-card">
                                                         <div>
@@ -82,14 +84,13 @@ onAuthStateChanged(auth, (user) => {
                                                             <div class="sensor-number">${sensor_id}</div>
                                 
                                                             <div class="location" id="loc_${sensor_id}">${sensor_loc}</div>
-                                                            <div class="reading danger" id="dust_value_${sensor_id}">${late_pm25} µg/m³</div>
+                                                            <div class="reading danger" id="dust_value_${sensor_id}">${late_si} µg/m³</div>
                                                             <span class="badge danger" id="dust_status_${sensor_id}">DANGER</span>
 
                                                             <div class="sensor-info">
-                                                            <strong>Last Record: </strong><spa id="late_time_${sensor_id}">${late_pm25_time}</span><br>
+                                                            <strong>Last Record: </strong><spa id="late_time_${sensor_id}">${late_si_time}</span><br>
                                                             <strong>PM2.5: </strong><span id="late_pm25_${sensor_id}">${late_pm25} µg/m³</span><br>
-                                                            <strong>PM10: </strong><span id="late_pm10_${sensor_id}">${late_pm25} µg/m³</span><br>
-                                                            <strong>Sensor Status: </strong><span id="sensor_status_${sensor_id}">Online</span>
+                                                            <strong>PM10: </strong><span id="late_pm10_${sensor_id}">${late_pm10} µg/m³</span><br>
                                                             </div>
                                                         </div>
 
@@ -116,22 +117,36 @@ onAuthStateChanged(auth, (user) => {
                         // dust data
                         var late_pm25 = docSnap.data().dust.pm2_5.dust_data.pop();
                         var late_pm25_time = docSnap.data().dust.pm2_5.timestamp.pop();
-                        // var late_pm10 = docSnap.data().dust.pm10.dust_data.pop();
-                        // var late_pm10_time = docSnap.data().dust.pm10.timestamp.pop();
+                        var late_pm10 = docSnap.data().dust.pm10.dust_data.pop();
+                        var late_pm10_time = docSnap.data().dust.pm10.timestamp.pop();
+                        var late_si = docSnap.data().dust.si.dust_data.pop();
+                        var late_si_time = docSnap.data().dust.si.timestamp.pop();
 
                         //Data
-                        document.getElementById("late_temp_"+sensor_id).innerHTML = late_temp + "&nbsp;°C";
-                        document.getElementById("name_"+sensor_id).innerHTML = tank_name;
-                        document.getElementById("info_"+sensor_id).innerHTML = tank_info;
-                        document.getElementById("sdate_"+sensor_id).innerHTML = tank_sdate;
-                        document.getElementById("ph_"+sensor_id).innerHTML = late_ph;
-                        document.getElementById("late_sg_"+sensor_id).innerHTML = late_sg;
-
-                        var temp_dif = late_temp - docSnap.data().control.temp_control;
-                        if(temp_dif < 0){
-                            document.getElementById("late_temp_"+tank_id).style.color = "#478ac9";
-                        }else{
-                            document.getElementById("late_temp_"+tank_id).style.color = "#db545a";
+                        document.getElementById("sensor_name_"+sensor_id).innerHTML = sensor_name;
+                        document.getElementById("loc_"+sensor_id).innerHTML = sensor_loc;
+                        document.getElementById("dust_value_"+sensor_id).innerHTML = late_si;
+                        document.getElementById("late_pm25_"+sensor_id).innerHTML = late_pm25;
+                        document.getElementById("late_pm10_"+sensor_id).innerHTML = late_pm10;
+                        
+                        // cheak Status
+                        const diff = late_si - 0.05;
+                        if(diff <= 0){
+                            //Safe
+                            document.getElementById("dust_value_"+sensor_id).style.color = "#1f9d55";
+                            document.getElementById("dust_status_"+sensor_id).innerHTML = "Safe";
+                            document.getElementById("dust_status_"+sensor_id).className = "badge safe";
+                        }if(diff <= 0.03){
+                            //Warning
+                            document.getElementById("dust_value_"+sensor_id).style.color = "#d97706";
+                            document.getElementById("dust_status_"+sensor_id).innerHTML = "Warning";
+                            document.getElementById("dust_status_"+sensor_id).className = "badge warning"
+                        }
+                        else{
+                            //Danger
+                            document.getElementById("dust_value_"+sensor_id).style.color = "#dc2626";
+                            document.getElementById("dust_status_"+sensor_id).innerHTML = "Danger";
+                            document.getElementById("dust_status_"+sensor_id).className = "badge danger"
                         }
                     });
                 })
