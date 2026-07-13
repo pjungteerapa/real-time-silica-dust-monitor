@@ -77,6 +77,7 @@ onAuthStateChanged(auth, (user) => {
                                 var late_pm10_time = docSnap.data().dust.pm10.timestamp.pop();
                                 var late_si = docSnap.data().dust.si.dust_data.pop();
                                 var late_si_time = docSnap.data().dust.si.timestamp.pop();
+                                var date_format = formatTimestamp(late_si_time);
 
                                 var carousel_div = `<div class="sensor-card">
                                                         <div>
@@ -88,14 +89,14 @@ onAuthStateChanged(auth, (user) => {
                                                             <span class="badge danger" id="dust_status_${sensor_id}">DANGER</span>
 
                                                             <div class="sensor-info">
-                                                            <strong>Last Record: </strong><spa id="late_time_${sensor_id}">${late_si_time}</span><br>
+                                                            <strong>Last Record: </strong><span id="late_time_${sensor_id}">${date_format}</span><br>
                                                             <strong>PM2.5: </strong><span id="late_pm25_${sensor_id}">${late_pm25} µg/m³</span><br>
                                                             <strong>PM10: </strong><span id="late_pm10_${sensor_id}">${late_pm10} µg/m³</span><br>
                                                             </div>
                                                         </div>
 
                                                         <div class="card-actions">
-                                                            <a class="contact-button" href="moreinfo.html?${sensor_id}">MORE INFO</a>
+                                                            <a class="contact-button" href="moreinfo.html?id=${sensor_id}">MORE INFO</a>
                                                         </div>
                                                     </div>`
             
@@ -121,6 +122,7 @@ onAuthStateChanged(auth, (user) => {
                         var late_pm10_time = docSnap.data().dust.pm10.timestamp.pop();
                         var late_si = docSnap.data().dust.si.dust_data.pop();
                         var late_si_time = docSnap.data().dust.si.timestamp.pop();
+                        var date_format = formatTimestamp(late_si_time);
 
                         //Data
                         document.getElementById("sensor_name_"+sensor_id).innerHTML = sensor_name;
@@ -128,6 +130,7 @@ onAuthStateChanged(auth, (user) => {
                         document.getElementById("dust_value_"+sensor_id).innerHTML = late_si;
                         document.getElementById("late_pm25_"+sensor_id).innerHTML = late_pm25;
                         document.getElementById("late_pm10_"+sensor_id).innerHTML = late_pm10;
+                        document.getElementById("late_time_"+sensor_id).innerHTML = date_format;
                         
                         // cheak Status
                         const diff = late_si - 0.05;
@@ -175,3 +178,12 @@ document.getElementById('logout').addEventListener('click', (e) => {
             console.log(err.message)
         })
 })
+
+function formatTimestamp(timestamp) {
+  const date = new Date(Number(timestamp));
+
+  const pad = value => String(value).padStart(2, "0");
+
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ` +
+         `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+}

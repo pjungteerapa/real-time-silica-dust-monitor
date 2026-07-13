@@ -35,8 +35,8 @@
         <div class="dropdown-menu">
           <a href="/">Home</a>
           <a href="contact.html">Contact</a>
-          <a href="login.html">Login</a>
-          <a href="/">Logout</a>
+          <a href="login.html" id="login">Login</a>
+          <a href="/" id="logout">Logout</a>
         </div>
       </div>
     </header>
@@ -45,9 +45,9 @@
     <main class="more-info-page">
 
       <section class="sensor-header">
-        <span class="section-label-blue">agbhfijokalf</span>
-        <h2>Inside Sensor 01</h2>
-        <p>Location: Sand Rainer Area</p>
+        <span class="section-label-blue sensor_id">agbhfijokalf</span>
+        <h2 id="sensor_name">Inside Sensor 01</h2>
+        <p id="loc">Location: Sand Rainer Area</p>
       </section>
 
       <!-- Graph Section -->
@@ -84,27 +84,27 @@
 
           <div class="info-row">
             <span>Sensor ID</span>
-            <strong>aashuidfasildasd65565</strong>
+            <strong class="sensor_id">aashuidfasildasd65565</strong>
           </div>
 
           <div class="info-row">
             <span>Location</span>
-            <strong>Infrastructure Engineering - Block D (Building 176), Floor B1</strong>
+            <strong id="loc_long">Infrastructure Engineering - Block D (Building 176), Floor B1</strong>
           </div>
 
           <div class="info-row">
             <span>Sensor Type</span>
-            <strong>Light Sensor</strong>
+            <strong id="sensor_type">Light Sensor</strong>
           </div>
 
           <div class="info-row">
             <span>Measured Range</span>
-            <strong>PM1.0 / PM2.5 / PM10</strong>
+            <strong id="sensor_measure_range">PM1.0 / PM2.5 / PM10</strong>
           </div>
 
           <div class="info-row">
             <span>Last Updated</span>
-            <strong>10:32 AM</strong>
+            <strong id="late_time">10:32 AM</strong>
           </div>
         </div>
 
@@ -112,11 +112,11 @@
         <div class="info-card">
           <h3>Current Status</h3>
 
-          <div class="current-reading danger-text">
-            85 µg/m³
+          <div class="current-reading danger-text" id="dust_value">
+            0.00 µg/m³
           </div>
 
-          <span class="badge danger">DANGER</span>
+          <span class="badge danger" id="dust_status">DANGER</span>
 
           <p class="status-description">
             Discription for operating.
@@ -124,12 +124,12 @@
 
           <div class="info-row">
             <span>PM2.5</span>
-            <strong>42 µg/m³</strong>
+            <strong id="late_pm25">0.00</strong><strong> µg/m³</strong>
           </div>
 
           <div class="info-row">
             <span>PM10</span>
-            <strong>85 µg/m³</strong>
+            <strong id="late_pm10">0.00</strong><strong> µg/m³</strong>
           </div>
         </div>
 
@@ -165,6 +165,6 @@
     </footer>
 
   </div>
-<script src="js/chart.js"></script>
+<script type="module" src="js/chart.js"></script>
 </body>
 </html>

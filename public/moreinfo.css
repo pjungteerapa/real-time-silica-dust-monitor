@@ -125,7 +125,7 @@
 }
 
 .info-row strong {
-  display: block;
+  /* display: block; */
   color: var(--primary);
   font-size: 14px;
   line-height: 1.4;
