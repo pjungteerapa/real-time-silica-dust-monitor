@@ -114,58 +114,56 @@ onAuthStateChanged(auth, (user) => {
           }
 
           // Chart Update
-          // Data
-          var chart_data = docSnap.data().dust.si;
+          const chart_data = docSnap.data().dust.si;
           const standardValue = 0.05;
-          const chartDataByRange = createChartDataByRange(
+
+          currentChartDataByRange = createChartDataByRange(
             chart_data,
             [5, 10, 15, 30],
             standardValue
           );
-          // console.log(chartDataByRange);
-          // Chart Create
-          const ctx = document.getElementById('dustChart');
-          const chartSubtitle = document.getElementById('chartSubtitle');
-          const dustChart = new Chart(ctx, {
-            type: "line",
-            data: {
-              labels: chartDataByRange[5].labels,
-              datasets: [
-                {
-                  label: "Silica Dust mg/m³",
-                  data: chartDataByRange[5].si,
-                  borderWidth: 3,
-                  tension: 0.35,
-                  pointRadius: 4
-                },
-                {
-                  label: "Standard Value",
-                  data: chartDataByRange[5].threshold,
-                  borderWidth: 2,
-                  borderDash: [8, 6],
-                  pointRadius: 0
-                }
-              ]
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: false
-            }
-          });
-          // Chart Update
-          const timeRangeSelect = document.getElementById("timeRange");
-          timeRangeSelect.addEventListener("change", () => {
-            const range = Number(timeRangeSelect.value);
-            const selectedData = chartDataByRange[range];
 
+          const selectedData = currentChartDataByRange[currentRange];
+
+          const ctx = document.getElementById("dustChart");
+
+          if (!dustChart) {
+            dustChart = new Chart(ctx, {
+              type: "line",
+              data: {
+                labels: selectedData.labels,
+                datasets: [
+                  {
+                    label: "Silica Dust mg/m³",
+                    data: selectedData.si,
+                    borderWidth: 3,
+                    tension: 0.35,
+                    pointRadius: 4
+                  },
+                  {
+                    label: "Standard Value",
+                    data: selectedData.threshold,
+                    borderWidth: 2,
+                    borderDash: [8, 6],
+                    pointRadius: 0
+                  }
+                ]
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: false
+              }
+            });
+          } else {
             dustChart.data.labels = selectedData.labels;
             dustChart.data.datasets[0].data = selectedData.si;
             dustChart.data.datasets[1].data = selectedData.threshold;
 
             dustChart.update();
+          }
 
-            chartSubtitle.textContent = `Showing latest ${range} records`;
-          }); 
+          chartSubtitle.textContent = `Showing latest ${currentRange} records`;
+          
 
         });
       
@@ -186,6 +184,30 @@ document.getElementById('logout').addEventListener('click', (e) => {
             console.log(err.message)
         })
 })
+
+// Chart Create
+let dustChart = null;
+let currentChartDataByRange = null;
+let currentRange = 5;
+
+const timeRangeSelect = document.getElementById("timeRange");
+const chartSubtitle = document.getElementById("chartSubtitle");
+
+timeRangeSelect.addEventListener("change", () => {
+  currentRange = Number(timeRangeSelect.value);
+
+  if (!dustChart || !currentChartDataByRange) return;
+
+  const selectedData = currentChartDataByRange[currentRange];
+
+  dustChart.data.labels = selectedData.labels;
+  dustChart.data.datasets[0].data = selectedData.si;
+  dustChart.data.datasets[1].data = selectedData.threshold;
+
+  dustChart.update();
+
+  chartSubtitle.textContent = `Showing latest ${currentRange} records`;
+});
 
 ///////////////////////////////////////////////////////////////////////////////
 //function
