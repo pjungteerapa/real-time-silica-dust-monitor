@@ -62,7 +62,7 @@ onAuthStateChanged(auth, (user) => {
                     // Slideshow Create
                     getDoc(sensor_docRef).then(docSnap => {
                         if (docSnap.exists()) {
-                            console.log("Document data:", docSnap.data());
+                            // console.log("Document data:", docSnap.data());
                                 var sensor_id = docSnap.data().id;
                                 var sensor_name = docSnap.data().name;
                                 //info
@@ -134,12 +134,14 @@ onAuthStateChanged(auth, (user) => {
                         
                         // cheak Status
                         const diff = late_si - 0.05;
+                        // console.log(diff);
                         if(diff <= 0){
                             //Safe
                             document.getElementById("dust_value_"+sensor_id).style.color = "#1f9d55";
                             document.getElementById("dust_status_"+sensor_id).innerHTML = "Safe";
                             document.getElementById("dust_status_"+sensor_id).className = "badge safe";
-                        }if(diff <= 0.03){
+                        }
+                        else if(diff <= 0.03){
                             //Warning
                             document.getElementById("dust_value_"+sensor_id).style.color = "#d97706";
                             document.getElementById("dust_status_"+sensor_id).innerHTML = "Warning";
