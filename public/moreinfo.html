@@ -9,6 +9,7 @@
 
   <!-- Chart.js for line time-series graph -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
 </head>
 
 <body>
@@ -62,10 +63,15 @@
             <label for="timeRange" class="range-label">Time Range</label>
 
             <select id="timeRange" class="range-select">
-              <option value="5" selected>Last 5 records</option>
-              <option value="10">Last 10 records</option>
-              <option value="15">Last 15 records</option>
-              <option value="30">Last 30 records</option>
+                <option value="10min" selected>Last 10 minutes</option>
+                <option value="30min">Last 30 minutes</option>
+                <option value="1hour">Last 1 hour</option>
+                <option value="3hour">Last 3 hours</option>
+                <option value="6hour">Last 6 hours</option>
+                <option value="12hour">Last 12 hours</option>
+                <option value="day">Last 24 hours</option>
+                <option value="week">Last 7 days</option>
+                <option value="month">Last 30 days</option>
             </select>
           </div>
         </div>

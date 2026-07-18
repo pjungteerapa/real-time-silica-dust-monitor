@@ -115,54 +115,7 @@ onAuthStateChanged(auth, (user) => {
 
           // Chart Update
           const chart_data = docSnap.data().dust.si;
-          const standardValue = 0.05;
-
-          currentChartDataByRange = createChartDataByRange(
-            chart_data,
-            [5, 10, 15, 30],
-            standardValue
-          );
-
-          const selectedData = currentChartDataByRange[currentRange];
-
-          const ctx = document.getElementById("dustChart");
-
-          if (!dustChart) {
-            dustChart = new Chart(ctx, {
-              type: "line",
-              data: {
-                labels: selectedData.labels,
-                datasets: [
-                  {
-                    label: "Silica Dust mg/m³",
-                    data: selectedData.si,
-                    borderWidth: 3,
-                    tension: 0.35,
-                    pointRadius: 4
-                  },
-                  {
-                    label: "Standard Value",
-                    data: selectedData.threshold,
-                    borderWidth: 2,
-                    borderDash: [8, 6],
-                    pointRadius: 0
-                  }
-                ]
-              },
-              options: {
-                responsive: true,
-                maintainAspectRatio: false
-              }
-            });
-          } else {
-            dustChart.data.labels = selectedData.labels;
-            dustChart.data.datasets[0].data = selectedData.si;
-            dustChart.data.datasets[1].data = selectedData.threshold;
-
-            dustChart.update();
-          }
-
-          chartSubtitle.textContent = `Showing latest ${currentRange} records`;
+          createOrUpdateChart(chart_data);
           
 
         });
@@ -187,27 +140,113 @@ document.getElementById('logout').addEventListener('click', (e) => {
 
 // Chart Create
 let dustChart = null;
-let currentChartDataByRange = null;
-let currentRange = 5;
+let currentRange = "10min";
+let currentRawChartData = null;
 
-const timeRangeSelect = document.getElementById("timeRange");
+const standardValue = 0.05;
+const ctx = document.getElementById("dustChart");
 const chartSubtitle = document.getElementById("chartSubtitle");
 
+function createOrUpdateChart(rawData) {
+  currentRawChartData = rawData;
+
+  const selectedData = createTimeSeriesData(
+    rawData,
+    currentRange,
+    standardValue
+  );
+
+  if (!dustChart) {
+    dustChart = new Chart(ctx, {
+      type: "line",
+      data: {
+        datasets: [
+          {
+            label: "Silica Dust mg/m³",
+            data: selectedData.dust,
+            borderWidth: 3,
+            tension: 0.25,
+            pointRadius: 3,
+
+            // สำคัญ: ถ้าข้อมูลขาดนานเกิน 10 นาที จะไม่ลากเส้นต่อ
+            spanGaps: 10 * 60 * 1000
+          },
+          {
+            label: "Standard Value",
+            data: selectedData.threshold,
+            borderWidth: 2,
+            borderDash: [8, 6],
+            pointRadius: 0
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        parsing: false,
+        scales: {
+          x: {
+            type: "time",
+            time: {
+              tooltipFormat: "dd/MM/yyyy HH:mm:ss",
+              displayFormats: {
+                minute: "dd/MM HH:mm",
+                hour: "dd/MM HH:mm",
+                day: "dd/MM/yyyy"
+              }
+            },
+            title: {
+              display: true,
+              text: "Date and Time"
+            },
+            ticks: {
+              autoSkip: true,
+              maxTicksLimit: 8,
+              maxRotation: 45,
+              minRotation: 45
+            }
+          },
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: "Silica Dust mg/m³"
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            position: "bottom"
+          },
+          tooltip: {
+            callbacks: {
+              title: function(context) {
+                const timestamp = context[0].parsed.x;
+                return formatDateTime(timestamp);
+              }
+            }
+          }
+        }
+      }
+    });
+  } else {
+    dustChart.data.datasets[0].data = selectedData.dust;
+    dustChart.data.datasets[1].data = selectedData.threshold;
+    dustChart.update();
+  }
+
+  chartSubtitle.textContent = getRangeText(currentRange);
+}
+
+const timeRangeSelect = document.getElementById("timeRange");
 timeRangeSelect.addEventListener("change", () => {
-  currentRange = Number(timeRangeSelect.value);
+  currentRange = timeRangeSelect.value;
 
-  if (!dustChart || !currentChartDataByRange) return;
+  if (!currentRawChartData) return;
 
-  const selectedData = currentChartDataByRange[currentRange];
-
-  dustChart.data.labels = selectedData.labels;
-  dustChart.data.datasets[0].data = selectedData.si;
-  dustChart.data.datasets[1].data = selectedData.threshold;
-
-  dustChart.update();
-
-  chartSubtitle.textContent = `Showing latest ${currentRange} records`;
+  createOrUpdateChart(currentRawChartData);
 });
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //function
@@ -220,29 +259,93 @@ function formatTimestamp(timestamp) {
          `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
 }
 
-function formatTime(timestamp) {
+function formatDateTime(timestamp) {
   const date = new Date(timestamp);
 
-  return date.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit"
-  });
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+
+  const hour = String(date.getHours()).padStart(2, "0");
+  const minute = String(date.getMinutes()).padStart(2, "0");
+  const second = String(date.getSeconds()).padStart(2, "0");
+
+  return `${day}/${month}/${year} ${hour}:${minute}:${second}`;
 }
 
-function createChartDataByRange(rawData, ranges, standardValue) {
-  const chartDataByRange = {};
+function createTimeSeriesData(rawData, rangeType, standardValue) {
+  const timestamps = rawData.timestamp || [];
+  const dustValues = rawData.dust_data || [];
 
-  ranges.forEach(range => {
-    const latestTimestamps = rawData.timestamp.slice(-range);
-    const latestDustData = rawData.dust_data.slice(-range);
+  const points = timestamps
+    .map((time, index) => ({
+      x: Number(time),
+      y: Number(dustValues[index])
+    }))
+    .filter(point => !Number.isNaN(point.x) && !Number.isNaN(point.y))
+    .sort((a, b) => a.x - b.x);
 
-    chartDataByRange[range] = {
-      labels: latestTimestamps.map(time => formatTime(time)),
-      si: latestDustData,
-      threshold: latestDustData.map(() => standardValue)
+  if (points.length === 0) {
+    return {
+      dust: [],
+      threshold: []
     };
+  }
+
+  // ใช้เวลาล่าสุดจากข้อมูลจริงเป็นจุดอ้างอิง
+  const latestTime = points[points.length - 1].x;
+
+  const rangeMs = getRangeMs(rangeType);
+  const startTime = latestTime - rangeMs;
+
+  const filteredPoints = points.filter(point => {
+    return point.x >= startTime && point.x <= latestTime;
   });
 
-  return chartDataByRange;
+  if (filteredPoints.length === 0) {
+    return {
+      dust: [],
+      threshold: []
+    };
+  }
+
+  return {
+    dust: filteredPoints,
+    threshold: [
+      { x: startTime, y: standardValue },
+      { x: latestTime, y: standardValue }
+    ]
+  };
+}
+
+function getRangeText(rangeType) {
+  const rangeText = {
+    "10min": "Showing data from the last 10 minutes",
+    "30min": "Showing data from the last 30 minutes",
+    "1hour": "Showing data from the last 1 hour",
+    "3hour": "Showing data from the last 3 hours",
+    "6hour": "Showing data from the last 6 hours",
+    "12hour": "Showing data from the last 12 hours",
+    day: "Showing data from the last 24 hours",
+    week: "Showing data from the last 7 days",
+    month: "Showing data from the last 30 days"
+  };
+
+  return rangeText[rangeType] || "Showing selected time range";
+}
+
+function getRangeMs(rangeType) {
+  const ranges = {
+    "10min": 10 * 60 * 1000,
+    "30min": 30 * 60 * 1000,
+    "1hour": 1 * 60 * 60 * 1000,
+    "3hour": 3 * 60 * 60 * 1000,
+    "6hour": 6 * 60 * 60 * 1000,
+    "12hour": 12 * 60 * 60 * 1000,
+    day: 24 * 60 * 60 * 1000,
+    week: 7 * 24 * 60 * 60 * 1000,
+    month: 30 * 24 * 60 * 60 * 1000
+  };
+
+  return ranges[rangeType] || ranges.day;
 }
