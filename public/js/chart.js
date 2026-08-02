@@ -168,8 +168,8 @@ function createOrUpdateChart(rawData) {
             tension: 0.25,
             pointRadius: 3,
 
-            // สำคัญ: ถ้าข้อมูลขาดนานเกิน 10 นาที จะไม่ลากเส้นต่อ
-            spanGaps: 10 * 60 * 1000
+            // 10 min
+            spanGaps: 60 * 60 * 1000
           },
           {
             label: "Standard Value",
