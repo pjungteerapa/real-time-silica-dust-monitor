@@ -94,13 +94,13 @@ onAuthStateChanged(auth, (user) => {
           document.getElementById("late_time").innerHTML = date_format;
           
           // cheak Status
-          const diff = late_si - 0.05;
+          const diff = late_si - 50;
           if(diff <= 0){
               //Safe
               document.getElementById("dust_value").style.color = "#1f9d55";
               document.getElementById("dust_status").innerHTML = "Safe";
               document.getElementById("dust_status").className = "badge safe";
-          }else if(diff <= 0.03){
+          }else if(diff <= 30){
               //Warning
               document.getElementById("dust_value").style.color = "#d97706";
               document.getElementById("dust_status").innerHTML = "Warning";
@@ -143,7 +143,7 @@ let dustChart = null;
 let currentRange = "10min";
 let currentRawChartData = null;
 
-const standardValue = 0.05;
+const standardValue = 50;
 const ctx = document.getElementById("dustChart");
 const chartSubtitle = document.getElementById("chartSubtitle");
 
@@ -162,7 +162,7 @@ function createOrUpdateChart(rawData) {
       data: {
         datasets: [
           {
-            label: "Silica Dust mg/m³",
+            label: "Silica Dust µg/m³",
             data: selectedData.dust,
             borderWidth: 3,
             tension: 0.25,
@@ -210,7 +210,7 @@ function createOrUpdateChart(rawData) {
             beginAtZero: true,
             title: {
               display: true,
-              text: "Silica Dust mg/m³"
+              text: "Silica Dust µg/m³"
             }
           }
         },
@@ -292,7 +292,7 @@ function createTimeSeriesData(rawData, rangeType, standardValue) {
     };
   }
 
-  // ใช้เวลาล่าสุดจากข้อมูลจริงเป็นจุดอ้างอิง
+  
   const latestTime = points[points.length - 1].x;
 
   const rangeMs = getRangeMs(rangeType);

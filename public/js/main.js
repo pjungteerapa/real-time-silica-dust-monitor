@@ -85,7 +85,7 @@ onAuthStateChanged(auth, (user) => {
                                                             <div class="sensor-number">${sensor_id}</div>
                                 
                                                             <div class="location" id="loc_${sensor_id}">${sensor_loc}</div>
-                                                            <div class="reading danger" id="dust_value_${sensor_id}">${late_si} µg/m³</div>
+                                                            <div class="reading danger" id="dust_value_${sensor_id}">${late_si}</div>
                                                             <span class="badge danger" id="dust_status_${sensor_id}">DANGER</span>
 
                                                             <div class="sensor-info">
@@ -127,13 +127,13 @@ onAuthStateChanged(auth, (user) => {
                         //Data
                         document.getElementById("sensor_name_"+sensor_id).innerHTML = sensor_name;
                         document.getElementById("loc_"+sensor_id).innerHTML = sensor_loc;
-                        document.getElementById("dust_value_"+sensor_id).innerHTML = late_si;
-                        document.getElementById("late_pm25_"+sensor_id).innerHTML = late_pm25;
-                        document.getElementById("late_pm10_"+sensor_id).innerHTML = late_pm10;
+                        document.getElementById("dust_value_"+sensor_id).innerHTML = late_si + " µg/m³";
+                        document.getElementById("late_pm25_"+sensor_id).innerHTML = late_pm25 + " µg/m³";
+                        document.getElementById("late_pm10_"+sensor_id).innerHTML = late_pm10 + " µg/m³";
                         document.getElementById("late_time_"+sensor_id).innerHTML = date_format;
                         
                         // cheak Status
-                        const diff = late_si - 0.05;
+                        const diff = late_si - 50;
                         // console.log(diff);
                         if(diff <= 0){
                             //Safe
@@ -141,7 +141,7 @@ onAuthStateChanged(auth, (user) => {
                             document.getElementById("dust_status_"+sensor_id).innerHTML = "Safe";
                             document.getElementById("dust_status_"+sensor_id).className = "badge safe";
                         }
-                        else if(diff <= 0.03){
+                        else if(diff <= 30){
                             //Warning
                             document.getElementById("dust_value_"+sensor_id).style.color = "#d97706";
                             document.getElementById("dust_status_"+sensor_id).innerHTML = "Warning";
