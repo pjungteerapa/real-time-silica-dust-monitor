@@ -88,19 +88,19 @@ onAuthStateChanged(auth, (user) => {
           document.getElementById("loc_long").innerHTML = sensor_loc_long;
           document.getElementById("sensor_type").innerHTML = sensor_type;
           document.getElementById("sensor_measure_range").innerHTML = sensor_measure_range;
-          document.getElementById("dust_value").innerHTML = late_si + " µg/m³";
+          document.getElementById("dust_value").innerHTML = late_si + " mg/m³";
           document.getElementById("late_pm25").innerHTML = late_pm25;
           document.getElementById("late_pm10").innerHTML = late_pm10;
           document.getElementById("late_time").innerHTML = date_format;
           
           // cheak Status
-          const diff = late_si - 50;
+          const diff = late_si - 0.05;
           if(diff <= 0){
               //Safe
               document.getElementById("dust_value").style.color = "#1f9d55";
               document.getElementById("dust_status").innerHTML = "Safe";
               document.getElementById("dust_status").className = "badge safe";
-          }else if(diff <= 30){
+          }else if(diff <= 0.03){
               //Warning
               document.getElementById("dust_value").style.color = "#d97706";
               document.getElementById("dust_status").innerHTML = "Warning";
@@ -143,7 +143,7 @@ let dustChart = null;
 let currentRange = "10min";
 let currentRawChartData = null;
 
-const standardValue = 50;
+const standardValue = 0.05;
 const ctx = document.getElementById("dustChart");
 const chartSubtitle = document.getElementById("chartSubtitle");
 
@@ -162,7 +162,7 @@ function createOrUpdateChart(rawData) {
       data: {
         datasets: [
           {
-            label: "Silica Dust µg/m³",
+            label: "Silica Dust mg/m³",
             data: selectedData.dust,
             borderWidth: 3,
             tension: 0.25,
@@ -210,7 +210,7 @@ function createOrUpdateChart(rawData) {
             beginAtZero: true,
             title: {
               display: true,
-              text: "Silica Dust µg/m³"
+              text: "Silica Dust mg/m³"
             }
           }
         },

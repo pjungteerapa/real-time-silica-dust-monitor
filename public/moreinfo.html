@@ -83,7 +83,30 @@
 
       <!-- Information + Status + Output -->
       <section class="info-grid">
+        <!-- Current Status -->
+        <div class="info-card">
+          <h3>Current Status</h3>
 
+          <div class="current-reading danger-text" id="dust_value">
+            0.00 mg/m³
+          </div>
+
+          <span class="badge danger" id="dust_status">DANGER</span>
+
+          <p class="status-description">
+            Discription for operating.
+          </p>
+
+          <div class="info-row">
+            <span>PM2.5</span>
+            <strong id="late_pm25">0.00</strong><strong> mg/m³</strong>
+          </div>
+
+          <div class="info-row">
+            <span>PM10</span>
+            <strong id="late_pm10">0.00</strong><strong> mg/m³</strong>
+          </div>
+        </div>
         <!-- Sensor Information -->
         <div class="info-card">
           <h3>Sensor Information</h3>
@@ -114,30 +137,7 @@
           </div>
         </div>
 
-        <!-- Current Status -->
-        <div class="info-card">
-          <h3>Current Status</h3>
-
-          <div class="current-reading danger-text" id="dust_value">
-            0.00 µg/m³
-          </div>
-
-          <span class="badge danger" id="dust_status">DANGER</span>
-
-          <p class="status-description">
-            Discription for operating.
-          </p>
-
-          <div class="info-row">
-            <span>PM2.5</span>
-            <strong id="late_pm25">0.00</strong><strong> µg/m³</strong>
-          </div>
-
-          <div class="info-row">
-            <span>PM10</span>
-            <strong id="late_pm10">0.00</strong><strong> µg/m³</strong>
-          </div>
-        </div>
+        
 
         <!-- Output System -->
         <!-- <div class="info-card">

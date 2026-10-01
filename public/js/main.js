@@ -90,8 +90,8 @@ onAuthStateChanged(auth, (user) => {
 
                                                             <div class="sensor-info">
                                                             <strong>Last Record: </strong><span id="late_time_${sensor_id}">${date_format}</span><br>
-                                                            <strong>PM2.5: </strong><span id="late_pm25_${sensor_id}">${late_pm25} µg/m³</span><br>
-                                                            <strong>PM10: </strong><span id="late_pm10_${sensor_id}">${late_pm10} µg/m³</span><br>
+                                                            <strong>PM2.5: </strong><span id="late_pm25_${sensor_id}">${late_pm25} mg/m³</span><br>
+                                                            <strong>PM10: </strong><span id="late_pm10_${sensor_id}">${late_pm10} mg/m³</span><br>
                                                             </div>
                                                         </div>
 
@@ -127,13 +127,13 @@ onAuthStateChanged(auth, (user) => {
                         //Data
                         document.getElementById("sensor_name_"+sensor_id).innerHTML = sensor_name;
                         document.getElementById("loc_"+sensor_id).innerHTML = sensor_loc;
-                        document.getElementById("dust_value_"+sensor_id).innerHTML = late_si + " µg/m³";
-                        document.getElementById("late_pm25_"+sensor_id).innerHTML = late_pm25 + " µg/m³";
-                        document.getElementById("late_pm10_"+sensor_id).innerHTML = late_pm10 + " µg/m³";
+                        document.getElementById("dust_value_"+sensor_id).innerHTML = late_si + " mg/m³";
+                        document.getElementById("late_pm25_"+sensor_id).innerHTML = late_pm25 + " mg/m³";
+                        document.getElementById("late_pm10_"+sensor_id).innerHTML = late_pm10 + " mg/m³";
                         document.getElementById("late_time_"+sensor_id).innerHTML = date_format;
                         
                         // cheak Status
-                        const diff = late_si - 50;
+                        const diff = late_si - 0.05;
                         // console.log(diff);
                         if(diff <= 0){
                             //Safe
@@ -141,7 +141,7 @@ onAuthStateChanged(auth, (user) => {
                             document.getElementById("dust_status_"+sensor_id).innerHTML = "Safe";
                             document.getElementById("dust_status_"+sensor_id).className = "badge safe";
                         }
-                        else if(diff <= 30){
+                        else if(diff <= 0.03){
                             //Warning
                             document.getElementById("dust_value_"+sensor_id).style.color = "#d97706";
                             document.getElementById("dust_status_"+sensor_id).innerHTML = "Warning";
